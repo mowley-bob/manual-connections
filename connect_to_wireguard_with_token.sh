@@ -52,6 +52,7 @@ fi
 : "${PIA_CONNECT=true}"
 
 DEFAULT_PIA_CONF_PATH=/etc/wireguard/pia.conf
+SCRIPT_DIR=/manual-connections
 : "${PIA_CONF_PATH:=$DEFAULT_PIA_CONF_PATH}"
 
 # PIA currently does not support IPv6. In order to be sure your VPN
@@ -195,7 +196,7 @@ if [[ $PIA_CONNECT == "true" ]]; then
     echo -e "PIA_TOKEN=$PIA_TOKEN" \
       "PF_GATEWAY=$WG_SERVER_IP" \
       "PF_HOSTNAME=$WG_HOSTNAME" \
-      "sh -c \"( cd /manual-connections &&./port_forwarding.sh )\"" > /var/tmp/port-forward.sh
+      "sh -c \"( cd ${SCRIPT_DIR} &&./port_forwarding.sh )\"" > /var/tmp/port-forward.sh
     echo
     echo "The location used must be port forwarding enabled, or this will fail."
     echo "Calling the ./get_region script with PIA_PF=true will provide a filtered list."
