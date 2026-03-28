@@ -114,6 +114,13 @@ signature=$(echo "$payload_and_signature" | jq -r '.signature')
 payload=$(echo "$payload_and_signature" | jq -r '.payload')
 port=$(echo "$payload" | base64 -d | jq -r '.port')
 
+# Write the allocated port to /var/tmp/port for external use
+mkdir -p /var/tmp
+
+# Save the port number (no newline issue) to file
+printf "%s\n" "$port $PF_GATEWAY" > /var/tmp/port
+printf "%s\n" "$PF_GATEWAY $PIA_TOKEN $PF_HOSTNAME" > /var/tmp/piadata
+
 # The port normally expires after 2 months. If you consider
 # 2 months is not enough for your setup, please open a ticket.
 expires_at=$(echo "$payload" | base64 -d | jq -r '.expires_at')
